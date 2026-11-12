@@ -8,6 +8,9 @@ Juego de deducción hecho con POO, SOLID y MVC.
 - `tests/`: pruebas unitarias
 - `docs/`: diagrama UML
 
+
+recordarrrr:
+
 (La vista y el controlador se agregan en la Entrega 3.)
 
 ## Probar
