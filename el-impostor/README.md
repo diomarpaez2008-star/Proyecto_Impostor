@@ -7,7 +7,8 @@ Juego de deducción hecho con POO, SOLID y MVC.
 - `servicios/`: validadores de pistas, asignador de roles y contador de votos
 - `tests/`: pruebas unitarias
 - `docs/`: diagrama UML
-
+- 
+# Recordarrrrrrrrr-----
 (La vista y el controlador se agregan en la Entrega 3.)
 
 ## Probar
