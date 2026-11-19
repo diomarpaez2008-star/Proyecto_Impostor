@@ -1,6 +1,0 @@
-{
-  "lugares": ["playa", "hospital", "biblioteca", "aeropuerto", "cine", "estadio", "museo", "montaña"],
-  "animales": ["elefante", "delfín", "murciélago", "pingüino", "jirafa", "tortuga", "águila", "caballo"],
-  "objetos": ["paraguas", "teléfono", "espejo", "bicicleta", "reloj", "guitarra", "linterna", "mochila"],
-  "comidas": ["pizza", "empanada", "arepa", "helado", "sushi", "ensalada", "chocolate", "sancocho"]
-}
