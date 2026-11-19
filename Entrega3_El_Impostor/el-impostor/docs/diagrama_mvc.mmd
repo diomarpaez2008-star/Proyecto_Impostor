@@ -1,0 +1,81 @@
+classDiagram
+    direction LR
+    namespace Vista {
+        class IVistaJuego { <<interface>> }
+        class IVistaRegistro { <<interface>> }
+        class IVistaTurno { <<interface>> }
+        class IVistaDebate { <<interface>> }
+        class IVistaVotacion { <<interface>> }
+        class IVistaResultado { <<interface>> }
+        class VistaConsola
+    }
+    namespace Controlador {
+        class ControladorPartida
+        class ControladorRonda
+        class ControladorVotacion
+    }
+    namespace Servicios {
+        class IValidadorPista { <<interface>> }
+        class ValidadorLongitud
+        class ValidadorPalabraProhibida
+        class IAsignadorRoles { <<interface>> }
+        class AsignadorRolesAleatorio
+        class IContadorVotos { <<interface>> }
+        class ContadorVotosMayoria
+        class IRepositorioPalabras { <<interface>> }
+        class RepositorioPalabrasArchivo
+    }
+    namespace Modelo {
+        class Partida
+        class Ronda
+        class Pista
+        class Voto
+        class Jugador
+        class Rol { <<abstract>> }
+        class Civil
+        class Impostor
+        class PalabraSecreta
+        class Marcador
+        class ConfiguracionPartida
+        class FaseJuego { <<enumeration>> }
+    }
+    IVistaRegistro --|> IVistaJuego
+    IVistaTurno --|> IVistaJuego
+    IVistaDebate --|> IVistaJuego
+    IVistaVotacion --|> IVistaJuego
+    IVistaResultado --|> IVistaJuego
+    VistaConsola ..|> IVistaRegistro
+    VistaConsola ..|> IVistaTurno
+    VistaConsola ..|> IVistaDebate
+    VistaConsola ..|> IVistaVotacion
+    VistaConsola ..|> IVistaResultado
+    ControladorPartida ..> IVistaRegistro
+    ControladorPartida ..> IRepositorioPalabras
+    ControladorPartida ..> IAsignadorRoles
+    ControladorPartida ..> IContadorVotos
+    ControladorPartida *-- Marcador
+    ControladorPartida ..> ConfiguracionPartida
+    ControladorPartida ..> ControladorRonda
+    ControladorPartida ..> ControladorVotacion
+    ControladorRonda ..> IVistaTurno
+    ControladorRonda ..> IVistaDebate
+    ControladorVotacion ..> IVistaVotacion
+    ControladorRonda --> Partida
+    ControladorVotacion --> Partida
+    ValidadorLongitud ..|> IValidadorPista
+    ValidadorPalabraProhibida ..|> IValidadorPista
+    AsignadorRolesAleatorio ..|> IAsignadorRoles
+    ContadorVotosMayoria ..|> IContadorVotos
+    RepositorioPalabrasArchivo ..|> IRepositorioPalabras
+    Partida *-- Ronda
+    Ronda o-- Pista
+    Ronda o-- Voto
+    Ronda --> FaseJuego
+    Partida o-- Jugador
+    Partida --> PalabraSecreta
+    Jugador --> Rol
+    Civil --|> Rol
+    Impostor --|> Rol
+    Civil --> PalabraSecreta
+    Pista --> Jugador
+    Voto --> Jugador

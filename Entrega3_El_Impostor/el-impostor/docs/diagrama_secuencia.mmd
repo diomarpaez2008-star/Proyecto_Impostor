@@ -1,0 +1,58 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario
+    participant V as VistaConsola
+    participant CP as ControladorPartida
+    participant CR as ControladorRonda
+    participant CV as ControladorVotacion
+    participant P as Partida
+    participant R as Ronda
+    participant S as Servicios (Asignador, Validadores, Contador)
+
+    U->>V: nombres de jugadores
+    V-->>CP: pedir_jugadores()
+    CP->>P: Partida(jugadores, palabra, validadores, asignador, contador)
+    CP->>P: iniciar()
+    P->>S: asignar(jugadores, palabra)
+    P-->>CP: Ronda 1 (fase PISTAS)
+    loop cada jugador activo
+        CP->>V: mostrar_rol_privado(nombre, rol, palabra_visible)
+    end
+    CP->>CR: ejecutar()
+    loop cada jugador activo
+        CR->>V: pedir_pista(nombre, turno)
+        V-->>CR: texto
+        CR->>R: registrar_pista(pista)
+        R->>S: validar_texto(texto)
+        alt pista inválida
+            R-->>CR: PistaInvalidaException
+            CR->>V: mostrar_error()
+        end
+    end
+    CR->>R: avanzar_fase() (DEBATE)
+    CR->>V: mostrar_debate(pistas, segundos)
+    CR->>R: avanzar_fase() (VOTACION)
+    CP->>CV: ejecutar()
+    loop cada jugador activo
+        CV->>V: pedir_voto(votante, candidatos)
+        V-->>CV: nombre elegido
+        CV->>R: registrar_voto(voto)
+        alt voto inválido
+            R-->>CV: VotoInvalidoException
+            CV->>V: mostrar_error()
+        end
+    end
+    CV->>R: avanzar_fase() (RESULTADO)
+    CV->>P: acusado_de_la_ronda()
+    P->>S: contar(votos)
+    opt impostor descubierto y última oportunidad activa
+        CV->>V: pedir_adivinanza(nombre)
+    end
+    CV->>P: determinar_ganador(intento)
+    P-->>CV: "Civiles" | "Impostor" | None
+    alt None (continúa)
+        CP->>P: nueva_ronda()
+    else hay ganador
+        CP->>V: mostrar_resultado(ganador, palabra, roles)
+        CP->>V: mostrar_marcador()
+    end
